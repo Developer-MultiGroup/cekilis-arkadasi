@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoginForm from "@/components/LoginForm";
+import slugify from "@/lib/slugify"; // Import the slugify function
 
 import { supabase } from "@/lib/supabase";
 
@@ -30,6 +31,8 @@ const Home: React.FC = () => {
           return;
         }
 
+        const username = name && surname ? slugify(`${name} ${surname}`) : "";
+
         // After registration, create a user record in the database (optional)
         if (data?.user && name && surname) {
           const { error: dbError } = await supabase
@@ -39,6 +42,7 @@ const Home: React.FC = () => {
                 id: data.user.id,
                 name,
                 surname,
+                username,
                 photo_url: "",
                 matched_to: "",
                 points: 0,
@@ -71,7 +75,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
+    <div className="flex flex-col justify-center items-center min-h-screen">
       <LoginForm
         onSubmit={handleAuth}
         error={error}
