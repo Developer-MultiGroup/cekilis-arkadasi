@@ -63,7 +63,7 @@ const Home: React.FC = () => {
         }
       }
 
-      router.push("/dashboard"); // Navigate to dashboard after success
+      router.push("/welcome"); // Navigate to dashboard after success
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again.");
