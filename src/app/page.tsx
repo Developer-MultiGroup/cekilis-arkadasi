@@ -1,11 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import LoginForm from "@/components/LoginForm";
-import { createUserDocument } from "@/lib/firebase";
+
+import { supabase } from "@/lib/supabase";
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -20,30 +19,54 @@ const Home: React.FC = () => {
   ) => {
     try {
       if (isRegister) {
-        // Registration Flow
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
+        // Registration Flow using Supabase
+        const { data, error: signUpError } = await supabase.auth.signUp({
           email,
-          password
-        );
-        const { user } = userCredential;
+          password,
+        });
 
-        // Create user directory in Firestore
-        if (name && surname) {
-          await createUserDocument(user.uid, name, surname);
+        if (signUpError) {
+          setError(signUpError.message);
+          return;
+        }
+
+        // After registration, create a user record in the database (optional)
+        if (data?.user && name && surname) {
+          const { error: dbError } = await supabase
+            .from("users")
+            .upsert([
+              {
+                id: data.user.id,
+                name,
+                surname,
+                photo_url: "",
+                matched_to: "",
+                points: 0,
+              },
+            ]);
+
+          if (dbError) {
+            setError("Error creating user record in the database.");
+            return;
+          }
         }
       } else {
-        // Login Flow
-        await signInWithEmailAndPassword(auth, email, password);
+        // Login Flow using Supabase
+        const { data, error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (signInError) {
+          setError("Invalid email or password.");
+          return;
+        }
       }
+
       router.push("/dashboard"); // Navigate to dashboard after success
     } catch (err) {
       console.error(err);
-      setError(
-        isRegister
-          ? "Failed to register. Please try again."
-          : "Invalid email or password."
-      );
+      setError("Something went wrong. Please try again.");
     }
   };
 

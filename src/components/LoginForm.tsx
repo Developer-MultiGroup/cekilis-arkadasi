@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button"; // Adjust imports
 import { Input } from "./ui/input";
+import Image from "next/image";
 
 interface LoginFormProps {
-  onSubmit: (email: string, password: string, name?: string, surname?: string) => void;
+  onSubmit: (
+    email: string,
+    password: string,
+    name?: string,
+    surname?: string
+  ) => void;
   error: string;
   isRegister: boolean;
   toggleMode: () => void;
@@ -34,6 +40,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
       onSubmit={handleSubmit}
       className="w-full max-w-sm space-y-4 p-4 bg-white shadow rounded"
     >
+      <Image
+        src="/images/dmg-santa-hat.png"
+        alt="DMG logo with santa hat"
+        className="mx-auto"
+        width={125}
+        height={125}
+      />
       <h1 className="text-xl font-bold text-gray-700">
         {isRegister ? "Register" : "Login"}
       </h1>
