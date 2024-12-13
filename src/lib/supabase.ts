@@ -113,4 +113,55 @@ export const matchUsers = async (
   }
 };
 
+export const uploadPresentPhoto = async (
+  userId: string,
+  photoFile: File
+): Promise<string | null> => {
+  try {
+    // Fotoğrafın dosya yolu
+    const filePath = `presents/${userId}/${photoFile.name}`;
+
+    // Fotoğrafı "presents" deposuna yükle
+    const { error: uploadError } = await supabase.storage
+      .from("images")
+      .upload(filePath, photoFile);
+
+    if (uploadError) {
+      console.error("Hediye fotoğrafı yüklenirken hata oluştu:", uploadError.message);
+      return null;
+    }
+
+    // Yüklenen fotoğrafın genel URL'sini al
+    const { data: urlData } = supabase.storage
+      .from("images")
+      .getPublicUrl(filePath);
+
+    if (!urlData?.publicUrl) {
+      console.error("Hediye fotoğrafı için genel URL oluşturulamadı.");
+      return null;
+    }
+
+    const publicUrl = urlData.publicUrl;
+
+    // URL'yi `presents` tablosuna kaydet
+    const { error: dbError } = await supabase.from("presents").insert([
+      {
+        id: userId,
+        photo_url: publicUrl, // Genel URL
+      },
+    ]);
+
+    if (dbError) {
+      console.error("Hediye fotoğrafının URL'si veritabanına kaydedilirken hata oluştu:", dbError.message);
+      return null;
+    }
+
+    return publicUrl;
+  } catch (error) {
+    console.error("Beklenmeyen hata:", error);
+    return null;
+  }
+};
+
+
 
