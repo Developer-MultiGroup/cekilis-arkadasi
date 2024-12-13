@@ -15,7 +15,6 @@ export async function fetchAllUsers() {
       throw new Error(error.message);
     }
 
-    console.log("Fetched Users: ", data);
     return data;
   } catch (err) {
     console.error("Error fetching users: ", err);
@@ -43,24 +42,41 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-export const getMatchedUser = async (userID: string) => {
+export const getMatchedUser = async (currentUserID: string) => {
   try {
+    // Fetch the matched user ID
     const { data, error } = await supabase
-      .from("users")
+      .from("matches")
       .select("matched_to")
-      .eq("id", userID)
+      .eq("id", currentUserID)
       .single();
 
     if (error) {
-      throw new Error(error.message); 
+      throw new Error(error.message);
     }
 
-    return data?.matched_to; 
+    if (data.matched_to == "") {
+      return
+    }
+
+    // Fetch the matched user's details
+    const { data: matchData, error: matchError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", data.matched_to)
+      .single();
+
+    if (matchError) {
+      throw new Error(matchError.message);
+    }
+
+    return matchData.id; // Return the matched user's details
   } catch (error) {
-    console.error("Error fetching matched user:", error); 
-    return null; 
+    console.error("Error fetching matched user:", error);
+    return null;
   }
 };
+
 
 export const matchUsers = async (
   currentUserID: string,
@@ -69,7 +85,7 @@ export const matchUsers = async (
   try {
     // Start a transaction to update both users
     const { data: currentUserData, error: currentUserError } = await supabase
-      .from("users")
+      .from("matches")
       .update({ matched_to: matchedUserID })
       .eq("id", currentUserID);
 
