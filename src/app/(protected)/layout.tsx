@@ -8,7 +8,6 @@ export default function ProtectedLayout({
   children,
 }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
-  console.log(user)
   const router = useRouter();
 
   useEffect(() => {

@@ -1,10 +1,8 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoginForm from "@/components/LoginForm";
-import slugify from "@/lib/slugify"; // Import the slugify function
-
+import slugify from "@/lib/slugify";
 import { supabase } from "@/lib/supabase";
 
 const Home: React.FC = () => {
@@ -12,67 +10,131 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [isRegister, setIsRegister] = useState<boolean>(false);
 
+  const uploadPhoto = async (file: File, userId: string) => {
+    try {
+      // Create a unique file name
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${userId}-${Date.now()}.${fileExt}`;
+      const filePath = `users/${fileName}`;
+
+      // Upload the file to Supabase storage
+      const { error: uploadError, data } = await supabase.storage
+        .from('images')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      // Get the public URL for the uploaded file
+      const { data: { publicUrl } } = supabase.storage
+        .from('images')
+        .getPublicUrl(filePath);
+
+      return publicUrl;
+    } catch (error) {
+      console.error('Error uploading photo:', error);
+      throw error;
+    }
+  };
+
   const handleAuth = async (
     email: string,
     password: string,
     name?: string,
-    surname?: string
+    surname?: string,
+    profilePicture?: File
   ) => {
     try {
       if (isRegister) {
-        // Registration Flow using Supabase
-        const { data, error: signUpError } = await supabase.auth.signUp({
+        // Registration Flow
+        const { data: authData, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
         });
-
+  
         if (signUpError) {
           setError(signUpError.message);
           return;
         }
-
-        const username = name && surname ? slugify(`${name} ${surname}`) : "";
-
-        // After registration, create a user record in the database (optional)
-        if (data?.user && name && surname) {
-          const { error: dbError } = await supabase
-            .from("users")
-            .upsert([
-              {
-                id: data.user.id,
-                name,
-                surname,
-                username,
-                photo_url: "",
-                matched_to: "",
-                points: 0,
-              },
-            ]);
-
+  
+        if (authData.user) {
+          let photoUrl = ""; // Default empty photo URL
+  
+          // Handle profile picture upload
+          if (profilePicture) {
+            const filePath = `users/${authData.user.id}/${profilePicture.name}`;
+  
+            const { error: uploadError } = await supabase.storage
+              .from("images")
+              .upload(filePath, profilePicture);
+  
+            if (uploadError) {
+              console.error("Error uploading profile picture:", uploadError.message);
+              setError("Error uploading profile picture.");
+              return;
+            }
+  
+            // Get public URL for the uploaded image
+            const { data: urlData } = supabase.storage
+              .from("images")
+              .getPublicUrl(filePath);
+  
+            if (urlData?.publicUrl) {
+              photoUrl = urlData.publicUrl;
+            } else {
+              console.error("Error generating public URL for profile picture.");
+              setError("Error generating public URL for profile picture.");
+              return;
+            }
+          }
+  
+          // Create a slugified username
+          const username = name && surname ? slugify(`${name} ${surname}`) : "";
+  
+          // Save user data to the database
+          const { error: dbError } = await supabase.from("users").upsert([
+            {
+              id: authData.user.id,
+              email,
+              name,
+              surname,
+              username,
+              photo_url: photoUrl, // Save the public URL
+              matched_to: "",
+              points: 0,
+            },
+          ]);
+  
           if (dbError) {
-            setError("Error creating user record in the database.");
+            console.error("Error saving user data to the database:", dbError.message);
+            setError("Error saving user data to the database.");
             return;
           }
+  
+          router.push("/welcome"); // Navigate to the welcome page after successful registration
         }
       } else {
-        // Login Flow using Supabase
-        const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        // Login Flow
+        const { data: authData, error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
-
+  
         if (signInError) {
+          console.error("Error during login:", signInError.message);
           setError("Invalid email or password.");
           return;
         }
+  
+        router.push("/welcome"); // Navigate to the welcome page after successful login
       }
-
-      router.push("/welcome"); // Navigate to dashboard after success
     } catch (err) {
-      console.error(err);
+      console.error("Unexpected error:", err);
       setError("Something went wrong. Please try again.");
     }
   };
+  
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">

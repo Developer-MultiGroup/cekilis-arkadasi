@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button"; // Adjust imports
+import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 import Image from "next/image";
+import { Label } from "@/components/ui/label";
 
 interface LoginFormProps {
   onSubmit: (
     email: string,
     password: string,
     name?: string,
-    surname?: string
+    surname?: string,
+    photoFile?: File
   ) => void;
   error: string;
   isRegister: boolean;
@@ -25,11 +27,26 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string>("");
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPhotoFile(file);
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isRegister) {
-      onSubmit(email, password, name, surname);
+      onSubmit(email, password, name, surname, photoFile || undefined);
     } else {
       onSubmit(email, password);
     }
@@ -53,12 +70,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
       {isRegister && (
         <>
           <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Name
-            </label>
+            <Label htmlFor="name">Name</Label>
             <Input
               id="name"
               type="text"
@@ -69,12 +81,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             />
           </div>
           <div>
-            <label
-              htmlFor="surname"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Surname
-            </label>
+            <Label htmlFor="surname">Surname</Label>
             <Input
               id="surname"
               type="text"
@@ -84,15 +91,31 @@ const LoginForm: React.FC<LoginFormProps> = ({
               required
             />
           </div>
+          <div>
+            <Label htmlFor="photo">Profile Photo</Label>
+            <Input
+              id="photo"
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              className="mb-2"
+            />
+            {photoPreview && (
+              <div className="mt-2">
+                <Image
+                  src={photoPreview}
+                  alt="Profile preview"
+                  width={100}
+                  height={100}
+                  className="rounded-full object-cover"
+                />
+              </div>
+            )}
+          </div>
         </>
       )}
       <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Email
-        </label>
+        <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="email"
@@ -103,12 +126,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         />
       </div>
       <div>
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Password
-        </label>
+        <Label htmlFor="password">Password</Label>
         <Input
           id="password"
           type="password"
@@ -123,9 +141,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         {isRegister ? "Register" : "Login"}
       </Button>
       <p className="text-sm text-gray-500 text-center">
-        {isRegister
-          ? "Already have an account? "
-          : "Don't have an account yet? "}
+        {isRegister ? "Already have an account? " : "Don't have an account yet? "}
         <button
           type="button"
           onClick={toggleMode}
