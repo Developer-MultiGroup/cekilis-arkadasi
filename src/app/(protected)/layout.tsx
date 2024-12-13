@@ -25,5 +25,7 @@ export default function ProtectedLayout({
     return null; // Prevent rendering of protected content before redirect
   }
 
-  return <>{children}</>;
+  return (<>
+  {children}
+  </>);
 }

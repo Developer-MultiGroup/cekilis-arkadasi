@@ -102,6 +102,7 @@ const Home: React.FC = () => {
               username,
               photo_url: photoUrl, // Save the public URL
               matched_to: "",
+              has_match: false, // TODO: might not work at first, check later on
               points: 0,
             },
           ]);

@@ -7,9 +7,10 @@ interface StageCardProps {
   index: number;
   name: string;
   date: string;
+  image: string;
 }
 
-export default function StageCard({ index, name, date }: StageCardProps) {
+export default function StageCard({ index, name, date, image }: StageCardProps) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -19,11 +20,11 @@ export default function StageCard({ index, name, date }: StageCardProps) {
   return (
     <div className="bg-gray-50 p-4 m-4 rounded-lg">
       <Image
-        src="/images/dmg-santa-hat.png"
+        src={image}
         className="m-auto"
         alt="stage image"
-        width={125}
-        height={125}
+        width={150}
+        height={150}
       />
       <div className="text-center">
         <p className="font-bold">{name}</p>
