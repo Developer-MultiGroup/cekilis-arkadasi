@@ -83,7 +83,6 @@ export const matchUsers = async (
   matchedUserID: string
 ) => {
   try {
-    // Start a transaction to update both users
     const { data: currentUserData, error: currentUserError } = await supabase
       .from("matches")
       .update({ matched_to: matchedUserID })
@@ -93,7 +92,6 @@ export const matchUsers = async (
       throw new Error(currentUserError.message);
     }
 
-    // Update the matched user's `has_matched` field
     const { data: matchedUserData, error: matchedUserError } = await supabase
       .from("users")
       .update({ has_match: true })
@@ -118,10 +116,8 @@ export const uploadPresentPhoto = async (
   photoFile: File
 ): Promise<string | null> => {
   try {
-    // Fotoğrafın dosya yolu
     const filePath = `presents/${userId}/${photoFile.name}`;
 
-    // Fotoğrafı "presents" deposuna yükle
     const { error: uploadError } = await supabase.storage
       .from("images")
       .upload(filePath, photoFile);
@@ -131,7 +127,6 @@ export const uploadPresentPhoto = async (
       return null;
     }
 
-    // Yüklenen fotoğrafın genel URL'sini al
     const { data: urlData } = supabase.storage
       .from("images")
       .getPublicUrl(filePath);
@@ -143,7 +138,6 @@ export const uploadPresentPhoto = async (
 
     const publicUrl = urlData.publicUrl;
 
-    // URL'yi `presents` tablosuna kaydet
     const { error: dbError } = await supabase.from("presents").insert([
       {
         id: userId,

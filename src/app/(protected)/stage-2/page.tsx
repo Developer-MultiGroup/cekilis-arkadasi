@@ -19,15 +19,8 @@ export default function Stage2() {
   // Check if the user has already uploaded a photo
   useEffect(() => {
     const checkIfUploaded = async () => {
-      // Retrieve upload status from localStorage (if set)
-      const uploadedStatus = localStorage.getItem("hasUploaded");
-
-      if (uploadedStatus === "true") {
-        setHasUploaded(true);
-        return; // Early return if already marked as uploaded
-      }
-
       if (user) {
+        // Check if there's a folder for the user in the 'presents' bucket on Supabase
         const { data, error } = await supabase.storage
           .from("images")
           .list(`presents/${user.id}`);
@@ -35,8 +28,11 @@ export default function Stage2() {
         if (error) {
           console.error("Error checking for existing uploads:", error.message);
         } else if (data && data.length > 0) {
+          // If the user has uploaded a file before, set the flag
           setHasUploaded(true);
-          localStorage.setItem("hasUploaded", "true"); // Persist upload state
+        } else {
+          // If no upload is found, set to false
+          setHasUploaded(false);
         }
       }
     };
@@ -77,8 +73,7 @@ export default function Stage2() {
 
     if (result) {
       setUploadStatus("Upload successful! URL: " + result);
-      setHasUploaded(true);
-      localStorage.setItem("hasUploaded", "true"); // Persist the upload status
+      setHasUploaded(true); // Mark as uploaded
     } else {
       setUploadStatus("Upload failed.");
     }
