@@ -51,7 +51,7 @@ export default function Scoreboard() {
                   key={userData.id}
                   className={`${
                     user && user.id === userData.id
-                      ? "text-orange-500 animate-pulse"
+                      ? "text-orange-500 font-extrabold"
                       : ""
                   }`}
                 >
