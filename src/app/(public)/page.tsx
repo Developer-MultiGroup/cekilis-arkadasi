@@ -12,6 +12,7 @@ const Home: React.FC = () => {
   const [isRegister, setIsRegister] = useState<boolean>(false);
   const {user} = useAuth()
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const uploadPhoto = async (file: File, userId: string) => {
     try {
       // Create a unique file name
@@ -20,6 +21,7 @@ const Home: React.FC = () => {
       const filePath = `users/${fileName}`;
 
       // Upload the file to Supabase storage
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { error: uploadError, data } = await supabase.storage
         .from("images")
         .upload(filePath, file);
@@ -142,6 +144,7 @@ const Home: React.FC = () => {
         }
       } else {
         // Login Flow
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { data: authData, error: signInError } =
           await supabase.auth.signInWithPassword({
             email,

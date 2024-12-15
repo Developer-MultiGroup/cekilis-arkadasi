@@ -8,6 +8,7 @@ import BackHome from "@/components/BackHome";
 
 export default function Scoreboard() {
   const { user } = useAuth(); 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [users, setUsers] = useState<any[]>([]); 
 
   useEffect(() => {

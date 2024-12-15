@@ -16,7 +16,9 @@ import { checkLocked } from "@/lib/check-locked";
 
 export default function Stage3() {
   const { user } = useAuth(); // Get the current authenticated user
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any[]>([]); // Present data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [users, setUsers] = useState<any[]>([]); // All users for the dropdown
   const [guesses, setGuesses] = useState<{ [key: string]: string }>({}); // Map of present ID to guessed user ID
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -145,9 +147,8 @@ export default function Stage3() {
           <div className="">
             {data.length > 0 ? (
               data.map((present) => (
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" key={present.id}>
                   <div
-                    key={present.id}
                     className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg transition-transform hover:scale-105"
                   >
                     <img
