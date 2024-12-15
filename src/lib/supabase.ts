@@ -157,5 +157,110 @@ export const uploadPresentPhoto = async (
   }
 };
 
+export const addPoint = async (userId: string) => {
+  try {
+    // Fetch the current points for the user
+    const { data: user, error: fetchError } = await supabase
+      .from("users")
+      .select("points")
+      .eq("id", userId)
+      .single();
 
+    if (fetchError) {
+      throw new Error(fetchError.message);
+    }
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Update the points
+    const newPoints = user.points + 10;
+
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ points: newPoints })
+      .eq("id", userId);
+
+    if (updateError) {
+      throw new Error(updateError.message);
+    }
+
+    return { success: true, newPoints };
+  } catch (error) {
+    const err = error as Error;
+    console.error("Error updating points:", err.message); // Access `message` property
+    return { success: false, message: err.message };
+  }
+};
+
+export const getUserPresents = async () => {
+  try {
+    // Step 1: Fetch all presents
+    const { data: presents, error: presentError } = await supabase
+      .from("presents")
+      .select("*");
+
+    if (presentError) {
+      throw new Error(presentError.message);
+    }
+
+    if (!presents || presents.length === 0) {
+      throw new Error("No presents found");
+    }
+
+    // Step 2: Fetch user details for each present
+    const userPromises = presents.map(async (present) => {
+      const { data: user, error: userError } = await supabase
+        .from("users")
+        .select("id, name, surname")
+        .eq("id", present.id)
+        .single();
+
+      if (userError) {
+        console.error(`Error fetching user for present ${present.id}:`, userError.message);
+        return null;
+      }
+
+      return { ...present, buyer: user }; // Merge present with user info
+    });
+
+    // Wait for all user queries to resolve
+    const results = await Promise.all(userPromises);
+
+    // Filter out any null results due to errors
+    const userPresents = results.filter((item) => item !== null);
+
+    return userPresents;
+  } catch (error) {
+    const err = error as Error;
+    console.error("Error getting user presents:", err.message); // Access `message` property
+    return { success: false, message: err.message };
+  }
+};
+
+export const finishGame = async (userId: string) => {
+  try {
+    // Make the update query and await the result
+    const { data, error } = await supabase
+      .from("users")
+      .update({ game_played: true })
+      .eq("id", userId);
+
+    // Check if there's an error
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // Optionally, you can log or handle the successful result
+    console.log("Game finished for user:", userId);
+
+    return { success: true, data }; // or whatever you want to return
+
+  } catch (error) {
+    const err = error as Error;
+    console.error("Error finishing game:", err.message); // Access `message` property
+    return { success: false, message: err.message };
+  }
+};
 

@@ -106,6 +106,7 @@ const Home: React.FC = () => {
               username,
               photo_url: photoUrl, // Save the public URL
               has_match: false,
+              game_played: false,
               points: 0,
             },
           ]);

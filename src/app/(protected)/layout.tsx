@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -18,7 +19,7 @@ export default function ProtectedLayout({
   }, [user, loading, router]);
 
   if (loading) {
-    return <div>Loading...</div>; // Optional loading state
+    return <Loading />; // Optional loading state
   }
 
   if (!user) {
