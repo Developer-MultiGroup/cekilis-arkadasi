@@ -1,14 +1,16 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginForm from "@/components/LoginForm";
 import slugify from "@/lib/slugify";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/context/AuthContext";
 
 const Home: React.FC = () => {
   const router = useRouter();
   const [error, setError] = useState<string>("");
   const [isRegister, setIsRegister] = useState<boolean>(false);
+  const {user} = useAuth()
 
   const uploadPhoto = async (file: File, userId: string) => {
     try {
@@ -159,6 +161,12 @@ const Home: React.FC = () => {
       setError("Something went wrong. Please try again.");
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/welcome");
+    }
+  }, [user, router]);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
