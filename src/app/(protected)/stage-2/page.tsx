@@ -9,14 +9,23 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase"; // Ensure correct Supabase client import
 import NextStage from "@/components/NextStage";
 import BackHome from "@/components/BackHome";
+import { checkLocked } from "@/lib/check-locked";
 
 export default function Stage2() {
   const { user } = useAuth(); // Get the logged-in user
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewURL, setPreviewURL] = useState<string | null>(null);
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
-  const [hasUploaded, setHasUploaded] = useState<boolean>(false); // Track if the user has uploaded
+  const [hasUploaded, setHasUploaded] = useState<boolean>(false); 
   const router = useRouter();
+
+  useEffect(() => {
+    const stageLocked = checkLocked(2); 
+
+    if (stageLocked) {
+      router.replace("/welcome");
+    }
+  }, [router]);
 
   // Check if the user has already uploaded a photo
   useEffect(() => {

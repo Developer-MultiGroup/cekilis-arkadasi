@@ -12,6 +12,7 @@ import CustomHeader from "@/components/CustomHeader";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import BackHome from "@/components/BackHome";
+import { checkLocked } from "@/lib/check-locked";
 
 export default function Stage3() {
   const { user } = useAuth(); // Get the current authenticated user
@@ -21,6 +22,14 @@ export default function Stage3() {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [hasPlayed, setHasPlayed] = useState<boolean>(false); // Track if the user has already played
   const router = useRouter();
+
+  useEffect(() => {
+    const stageLocked = checkLocked(3);
+
+    if (stageLocked) {
+      router.replace("/welcome");
+    }
+  }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {
