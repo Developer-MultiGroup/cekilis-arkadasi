@@ -24,12 +24,12 @@ export default function StageCard({ index, name, date, image }: StageCardProps) 
 
   return (
     <div
-    className={`p-4 m-4 rounded-lg transition-transform transform ${
-      isLocked
-        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-        : "bg-white text-black hover:shadow-lg hover:scale-105"
-    } flex flex-col justify-between`}
-  >
+      className={`p-4 m-4 rounded-lg transition-transform transform ${
+        isLocked
+          ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+          : "bg-white text-black hover:shadow-lg hover:scale-105"
+      } flex flex-col justify-between`}
+    >
       <Image
         src={image}
         className={`m-auto rounded-md ${
@@ -39,7 +39,7 @@ export default function StageCard({ index, name, date, image }: StageCardProps) 
         width={150}
         height={150}
       />
-      <div className="text-center flex-grow">
+      <div className="text-center mb-4">
         <p className={`font-bold ${isLocked ? "text-gray-400" : ""}`}>{name}</p>
         <CountdownTimer targetDate={date} />
         {isLocked && (
@@ -47,7 +47,7 @@ export default function StageCard({ index, name, date, image }: StageCardProps) 
         )}
       </div>
       <Button
-        className={`w-full mt-2 mb-0 ${
+        className={`w-full ${
           isLocked
             ? "bg-gray-400 text-gray-600 cursor-not-allowed"
             : "bg-black hover:bg-gray-800 text-white"

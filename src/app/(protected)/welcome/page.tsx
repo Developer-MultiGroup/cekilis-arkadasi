@@ -7,7 +7,9 @@ import stages from "@/data/stages";
 import { getUserByEmail } from "@/lib/supabase"; 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import CustomHeader from "@/components/CustomHeader";
 
 export default function Welcome() {
   const { user, signOut } = useAuth();
@@ -35,9 +37,7 @@ export default function Welcome() {
 
   return (
     <div className="text-center min-h-screen flex flex-col justify-center items-center">
-      <h1 className="text-4xl py-8" style={{ fontFamily: "TanNimbus" }}>
-        DMG ÇEKİLİŞ ARKADAŞIN
-      </h1>
+      <CustomHeader>DMG ÇEKİLİŞ ARKADAŞIN</CustomHeader>
       {userData ? (
         <>
           <div className="flex flex-col items-center p-4">
