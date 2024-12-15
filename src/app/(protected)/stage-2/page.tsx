@@ -94,8 +94,8 @@ export default function Stage2() {
         <div className="max-w-md w-full bg-white shadow-md rounded-lg p-4">
           {hasUploaded ? (
             <div className="text-center text-gray-700">
-              <p>You have already uploaded a photo.</p>
-              <p>To update your photo, please contact support.</p>
+              <p>Zaten fotoğraf yükledin!</p>
+              <p>Yüklediğin fotoğrafı güncellemek için ekiple iletişime geç.</p>
             </div>
           ) : (
             <>

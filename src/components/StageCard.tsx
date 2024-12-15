@@ -30,7 +30,7 @@ export default function StageCard({ index, name, date, image }: StageCardProps) 
         <p className="font-bold">{name}</p>
         <CountdownTimer targetDate={date}/>
       </div>
-      <Button className="w-full mt-2" onClick={handleClick}>Start</Button>
+      <Button className="w-full mt-2" onClick={handleClick}>Başla</Button>
     </div>
   );
 }

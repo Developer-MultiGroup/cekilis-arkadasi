@@ -124,9 +124,9 @@ export default function Stage3() {
           <div className="max-w-md w-full bg-white shadow-md rounded-lg p-6">
             <div className="text-center text-gray-700">
               <p className="text-lg font-semibold">
-                You have already played the game.
+                Oyunu tamamladın!
               </p>
-              <p>To update your progress, please contact support.</p>
+              <p>Bir yanlışlık olduğunu düşünüyorsan ekiple iletişime geç.</p>
             </div>
           </div>
         ) : (
@@ -157,13 +157,13 @@ export default function Stage3() {
                     onClick={() => handleCheck(present.id)}
                     className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    Check
+                    Gönder
                   </button>
                 </div>
               ))
             ) : (
               <p className="text-center text-gray-500">
-                All presents have been matched!
+                Tüm hediyeleri eşledin!
               </p>
             )}
           </div>

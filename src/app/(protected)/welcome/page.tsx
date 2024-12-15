@@ -61,16 +61,16 @@ export default function Welcome() {
       <div className="flex space-x-4 mt-6">
         <Button
           onClick={signOut}
-          className="p-2 text-white rounded"
+          className="p-2 text-white rounded bg-red-600"
         >
-          Sign Out
+          Çıkış Yap
         </Button>
 
         <Button
           onClick={() => router.push("/scoreboard")}
           className="p-2 text-white rounded "
         >
-          Go to Scoreboard
+          Skor Tablosu
         </Button>
       </div>
 

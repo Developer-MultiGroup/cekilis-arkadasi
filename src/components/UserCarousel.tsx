@@ -178,7 +178,7 @@ const UserSpinner: React.FC = () => {
             className="p-2 text-white rounded my-6 ml-4"
             disabled={spinning}
           >
-            {spinning ? "Spinning..." : "Start Spin"}
+            {spinning ? "Seçiliyor..." : "Arkadaşını Seç"}
           </Button>
         </>
       )}

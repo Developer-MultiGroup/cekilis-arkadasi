@@ -65,34 +65,34 @@ const LoginForm: React.FC<LoginFormProps> = ({
         height={125}
       />
       <h1 className="text-xl font-bold text-gray-700">
-        {isRegister ? "Register" : "Login"}
+        {isRegister ? "Kayıt Ol" : "Giriş Yap"}
       </h1>
       {isRegister && (
         <>
           <div>
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">İsim</Label>
             <Input
               id="name"
               type="text"
-              placeholder="Enter your name"
+              placeholder="İsminizi girin"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
           <div>
-            <Label htmlFor="surname">Surname</Label>
+            <Label htmlFor="surname">Soyisim</Label>
             <Input
               id="surname"
               type="text"
-              placeholder="Enter your surname"
+              placeholder="Soyisminizi girin"
               value={surname}
               onChange={(e) => setSurname(e.target.value)}
               required
             />
           </div>
           <div>
-            <Label htmlFor="photo">Profile Photo</Label>
+            <Label htmlFor="photo">Komik Fotoğrafın</Label>
             <Input
               id="photo"
               type="file"
@@ -115,22 +115,22 @@ const LoginForm: React.FC<LoginFormProps> = ({
         </>
       )}
       <div>
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">E-Posta</Label>
         <Input
           id="email"
           type="email"
-          placeholder="Enter your email"
+          placeholder="E-Posta adresinizi girin"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
       </div>
       <div>
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">Şifre</Label>
         <Input
           id="password"
           type="password"
-          placeholder="Enter your password"
+          placeholder="Şifrenizi girin"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -138,16 +138,16 @@ const LoginForm: React.FC<LoginFormProps> = ({
       </div>
       {error && <p className="text-red-500 text-sm">{error}</p>}
       <Button type="submit" className="w-full">
-        {isRegister ? "Register" : "Login"}
+        {isRegister ? "Kayıt ol" : "Giriş Yap"}
       </Button>
       <p className="text-sm text-gray-500 text-center">
-        {isRegister ? "Already have an account? " : "Don't have an account yet? "}
+        {isRegister ? "Zaten hesabın var mı? " : "Hala hesabın yok mu? "}
         <button
           type="button"
           onClick={toggleMode}
           className="text-blue-500 underline"
         >
-          {isRegister ? "Login" : "Register"}
+          {isRegister ? "Giriş Yap" : "Kayıt Ol"}
         </button>
       </p>
     </form>
