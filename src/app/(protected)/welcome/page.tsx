@@ -7,7 +7,6 @@ import stages from "@/data/stages";
 import { getUserByEmail } from "@/lib/supabase"; 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import CustomHeader from "@/components/CustomHeader";
 
