@@ -4,13 +4,11 @@ import { useState, useEffect } from "react";
 import CustomHeader from "@/components/CustomHeader";
 import { fetchAllUsers } from "@/lib/supabase"; 
 import { useAuth } from "@/context/AuthContext"; 
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import BackHome from "@/components/BackHome";
 
 export default function Scoreboard() {
   const { user } = useAuth(); 
   const [users, setUsers] = useState<any[]>([]); 
-  const router = useRouter();
 
   useEffect(() => {
     const getUsers = async () => {
@@ -29,25 +27,18 @@ export default function Scoreboard() {
     <div className="min-h-screen p-4">
       <CustomHeader>SKOR TABLOSU</CustomHeader>
 
-      <div className="flex justify-center mt-6">
-        <Button
-          onClick={() => router.push("/welcome")}
-          className="w-1/5 bg-white bg-opacity-40 text-gray-600 hover:text-white border-2 border-gray-300 py-2 px-6 mb-8 rounded-lg backdrop-blur-md shadow-lg hover:bg-opacity-60 transition-all"
-        >
-          Anasayfa
-        </Button>
-      </div>
+      <BackHome/>
 
       <div className="overflow-x-auto mt-6 text-white">
-        <table className="w-1/3 m-auto bg-white shadow-md rounded-lg overflow-hidden">
-          <thead className="bg-gray-900">
+        <table className="w-1/3 m-auto shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-gray-300 text-gray-800">
             <tr>
               <th className="py-3 px-6 text-left">Ad</th>
               <th className="py-3 px-6 text-left">Soyad</th>
               <th className="py-3 px-6 text-left">Puan</th>
             </tr>
           </thead>
-          <tbody className="bg-black">
+          <tbody className="bg-white text-black">
             {users.length === 0 ? (
               <tr>
                 <td colSpan={3} className="text-center py-4">
@@ -60,7 +51,7 @@ export default function Scoreboard() {
                   key={userData.id}
                   className={`${
                     user && user.id === userData.id
-                      ? "text-orange-500"
+                      ? "text-orange-500 animate-pulse"
                       : ""
                   }`}
                 >

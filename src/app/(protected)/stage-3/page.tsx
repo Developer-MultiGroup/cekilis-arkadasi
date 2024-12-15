@@ -11,6 +11,7 @@ import { useAuth } from "@/context/AuthContext"; // Import Auth Context
 import CustomHeader from "@/components/CustomHeader";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import BackHome from "@/components/BackHome";
 
 export default function Stage3() {
   const { user } = useAuth(); // Get the current authenticated user
@@ -104,14 +105,7 @@ export default function Stage3() {
   return (
     <div className="p-4 min-h-screen">
       <CustomHeader>BU HEDİYEYİ KİM ALDI ?</CustomHeader>
-      <div className="flex justify-center mb-4">
-        <Button
-          onClick={() => router.push("/welcome")}
-          className="w-1/5 mx-auto bg-white bg-opacity-40 text-gray-600 hover:text-white border-2 border-gray-300 py-2 px-6 rounded-lg backdrop-blur-md shadow-lg hover:bg-opacity-60 transition-all"
-        >
-          Anasayfa
-        </Button>
-      </div>
+      <BackHome />
 
       <div className="flex flex-1 justify-center items-center">
         {feedback && (
@@ -121,50 +115,77 @@ export default function Stage3() {
         )}
 
         {hasPlayed ? (
-          <div className="max-w-md w-full bg-white shadow-md rounded-lg p-6">
-            <div className="text-center text-gray-700">
-              <p className="text-lg font-semibold">
-                Oyunu tamamladın!
-              </p>
-              <p>Bir yanlışlık olduğunu düşünüyorsan ekiple iletişime geç.</p>
+          <div className="flex justify-center items-center w-full h-full">
+            <div className="max-w-md w-full bg-white shadow-md rounded-lg p-6">
+              <div className="text-center text-gray-700">
+                <p className="text-lg font-semibold">Oyunu tamamladın!</p>
+                <p>
+                  Bir yanlışlık olduğunu düşünüyorsan ekiple iletişime
+                  geçebilirsin.
+                </p>
+                <Button
+                  className="w-full mt-4"
+                  onClick={() => router.push("/scoreboard")}
+                >
+                  Skor Tablosunu Görüntüle
+                </Button>
+              </div>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="">
             {data.length > 0 ? (
               data.map((present) => (
-                <div
-                  key={present.id}
-                  className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg transition-transform hover:scale-105"
-                >
-                  <img
-                    src={present.photo_url}
-                    alt="Present"
-                    className="w-32 h-32 mx-auto mb-4 rounded-lg shadow-md"
-                  />
-                  <select
-                    onChange={(e) => handleGuess(present.id, e.target.value)}
-                    className="block w-full border p-2 rounded-md text-gray-700 bg-white shadow-sm focus:ring-2 focus:ring-blue-500"
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div
+                    key={present.id}
+                    className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg transition-transform hover:scale-105"
                   >
-                    <option value="">Select a user</option>
-                    {users.map((user) => (
-                      <option key={user.id} value={user.id}>
-                        {user.name} {user.surname}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    onClick={() => handleCheck(present.id)}
-                    className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    Gönder
-                  </button>
+                    <img
+                      src={present.photo_url}
+                      alt="Present"
+                      className="w-32 h-32 mx-auto mb-4 rounded-lg shadow-md"
+                    />
+                    <select
+                      onChange={(e) => handleGuess(present.id, e.target.value)}
+                      className="block w-full border p-2 rounded-md text-gray-700 bg-white shadow-sm focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select a user</option>
+                      {users.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.name} {user.surname}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={() => handleCheck(present.id)}
+                      className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      Gönder
+                    </button>
+                  </div>
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-500">
-                Tüm hediyeleri eşledin!
-              </p>
+              <div className="flex justify-center items-center w-full h-full">
+                <div className="max-w-md w-full bg-white shadow-md rounded-lg p-6">
+                  <div className="text-center text-gray-700">
+                    <p className="text-lg font-semibold">
+                      Tüm hediyeleri eşledin!
+                    </p>
+                    <p>
+                      Bir yanlışlık olduğunu düşünüyorsan ekiple iletişime
+                      geçebilirsin.
+                    </p>
+                    <Button
+                      className="w-full mt-4"
+                      onClick={() => router.push("/scoreboard")}
+                    >
+                      Skor Tablosunu Görüntüle
+                    </Button>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         )}

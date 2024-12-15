@@ -7,6 +7,8 @@ import { useAuth } from "@/context/AuthContext";
 import CustomHeader from "@/components/CustomHeader";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase"; // Ensure correct Supabase client import
+import NextStage from "@/components/NextStage";
+import BackHome from "@/components/BackHome";
 
 export default function Stage2() {
   const { user } = useAuth(); // Get the logged-in user
@@ -83,20 +85,19 @@ export default function Stage2() {
     <div className="min-h-screen flex flex-col">
       <CustomHeader>HEDİYENİ YÜKLE</CustomHeader>
 
-      <Button
-        onClick={() => router.push("/welcome")}
-        className="w-1/5 m-auto bg-white bg-opacity-40 text-gray-600 hover:text-white border-2 border-gray-300 py-2 px-6 rounded-lg backdrop-blur-md shadow-lg hover:bg-opacity-60 transition-all"
-      >
-        Anasayfa
-      </Button>
+      <BackHome/>
 
-      <div className="flex flex-1 justify-center items-center">
+      <div className="flex flex-1 justify-center items-center px-4">
         <div className="max-w-md w-full bg-white shadow-md rounded-lg p-4">
           {hasUploaded ? (
+            <>
             <div className="text-center text-gray-700">
               <p>Zaten fotoğraf yükledin!</p>
               <p>Yüklediğin fotoğrafı güncellemek için ekiple iletişime geç.</p>
+              <NextStage stage={3} mode="text"/>
             </div>
+            </>
+            
           ) : (
             <>
               {previewURL ? (

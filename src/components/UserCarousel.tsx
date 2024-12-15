@@ -3,10 +3,20 @@ import { Button } from "./ui/button";
 import { fetchAllUsers, getMatchedUser } from "@/lib/supabase";
 import { useAuth } from "@/context/AuthContext";
 import { matchUsers } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface User {
   id: number;
   name: string;
+  surname: string;
   photo: string;
 }
 
@@ -22,6 +32,7 @@ const UserSpinner: React.FC = () => {
   const [matchedUser, setMatchedUser] = useState<User | null>(null);
   const spinnerRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const router = useRouter();
 
   // Check if user is already matched
   useEffect(() => {
@@ -31,12 +42,15 @@ const UserSpinner: React.FC = () => {
         if (matchedUserId) {
           // If there's a match, fetch the matched user's details
           const allUsers = await fetchAllUsers();
-          const matchedUserDetails = allUsers?.find(u => u.id.toString() === matchedUserId);
+          const matchedUserDetails = allUsers?.find(
+            (u) => u.id.toString() === matchedUserId
+          );
           if (matchedUserDetails) {
             setMatchedUser({
               id: matchedUserDetails.id,
               name: matchedUserDetails.name,
-              photo: matchedUserDetails.photo_url
+              surname: matchedUserDetails.surname,
+              photo: matchedUserDetails.photo_url,
             });
             setIsMatched(true);
           }
@@ -59,6 +73,7 @@ const UserSpinner: React.FC = () => {
           .map((userData) => ({
             id: userData.id,
             name: userData.name,
+            surname: userData.surname,
             photo: userData.photo_url,
           }));
 
@@ -116,22 +131,44 @@ const UserSpinner: React.FC = () => {
   }, [spinning, animationStopped]);
 
   const visualPosition = currentPosition % users.length;
-  const extendedUsers = [...users, ...users, ...users, ...users, ...users, ...users];
+  const extendedUsers = [
+    ...users,
+    ...users,
+    ...users,
+    ...users,
+    ...users,
+    ...users,
+  ];
 
   // If user is already matched, show their matched user
   if (isMatched && matchedUser) {
     return (
       <div className="w-full max-w-lg mx-auto my-8">
-        <div className="mt-4 text-center transition-all duration-500 ease-in-out">
-          <h3 className="text-2xl font-bold text-green-500">
-            Çekiliş arkadaşın: {matchedUser.name}
-          </h3>
-          <img
-            src={matchedUser.photo}
-            alt={matchedUser.name}
-            className="w-48 h-48 rounded-full mx-auto mt-2 transform scale-110 transition-all duration-500 ease-in-out"
-          />
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Çekiliş Arkadaşını Belirledin!</CardTitle>
+            <CardDescription>
+              Şimdi hediyeni alıp 2. aşamaya geçme zamanı.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center mt-4">
+              <img
+                src={matchedUser.photo}
+                alt={matchedUser.name}
+                className="w-48 h-48 rounded-full mx-auto mt-2 transform transition-all duration-500 ease-in-out"
+              />
+              <h3 className="text-2xl font-bold my-4">
+                🎉 {matchedUser.name} {matchedUser.surname} 🎉
+              </h3>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button className="w-full" onClick={() => router.push("/stage-2")}>
+              2. Aşamaya İlerle
+            </Button>
+          </CardFooter>
+        </Card>
       </div>
     );
   }
@@ -184,15 +221,35 @@ const UserSpinner: React.FC = () => {
       )}
 
       {selectedUser && !spinning && showWinner && (
-        <div className="mt-4 text-center transition-all duration-500 ease-in-out">
-          <h3 className="text-2xl font-bold text-green-500">
-            Çekiliş arkadaşın: {selectedUser.name}
-          </h3>
-          <img
-            src={selectedUser.photo}
-            alt={selectedUser.name}
-            className="w-48 h-48 rounded-full mx-auto mt-2 transform scale-110 transition-all duration-500 ease-in-out"
-          />
+        <div className="w-full max-w-lg mx-auto my-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Çekiliş Arkadaşını Belirledin!</CardTitle>
+              <CardDescription>
+                Şimdi hediyeni alıp 2. aşamaya geçme zamanı.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center mt-4">
+                <img
+                  src={selectedUser.photo}
+                  alt={selectedUser.name}
+                  className="w-48 h-48 rounded-full mx-auto mt-2 transform transition-all duration-500 ease-in-out"
+                />
+                <h3 className="text-2xl font-bold my-4">
+                  🎉 {selectedUser.name} {selectedUser.surname} 🎉
+                </h3>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button
+                className="w-full"
+                onClick={() => router.push("/stage-2")}
+              >
+                2. Aşamaya İlerle
+              </Button>
+            </CardFooter>
+          </Card>
         </div>
       )}
     </div>

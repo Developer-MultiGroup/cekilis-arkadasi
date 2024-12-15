@@ -34,7 +34,7 @@ export default function Welcome() {
   }, [user?.email]);
 
   return (
-    <div className="text-center h-screen flex flex-col justify-center items-center">
+    <div className="text-center min-h-screen flex flex-col justify-center items-center">
       <h1 className="text-4xl py-8" style={{ fontFamily: "TanNimbus" }}>
         DMG ÇEKİLİŞ ARKADAŞIN
       </h1>
@@ -74,7 +74,7 @@ export default function Welcome() {
         </Button>
       </div>
 
-      <div className="m-auto w-5/6 grid grid-cols-3 gap-4 mt-6">
+      <div className="m-auto w-5/6 grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
         {stages.map((stage) => (
           <StageCard
             key={stage.index}
