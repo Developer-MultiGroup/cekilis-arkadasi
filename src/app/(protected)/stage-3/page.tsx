@@ -128,7 +128,7 @@ export default function Stage3() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {data.map((present) => (
               <div key={present.id}>
-                <div className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg transition-transform hover:scale-105">
+                <div className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg transition-transform">
                   <img
                     src={present.photo_url}
                     alt="Present"
