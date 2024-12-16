@@ -3,10 +3,20 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'TanNimbus';
-  src: url('/fonts/TAN-NIMBUS.ttf') format('truetype');
+  font-family: "TanNimbus";
+  src: url("/fonts/TAN-NIMBUS.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+}
+
+* {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+
+*::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
 }
 
 body {
@@ -15,6 +25,7 @@ body {
   background-repeat: no-repeat; /* Avoid repeating the image */
   background-position: center; /* Center the image */
   background-size: cover; /* Scale the image to cover the entire area */
+  background-attachment: fixed;
 }
 
 @layer base {
