@@ -26,11 +26,11 @@ Developer MultiGroup Çekiliş Arkadaşın is a web application for managing and
 
 ### Supabase Integration
 
-We are using Supabase as our main storage - database - authentication provider for this project, so you firstly should [create an account](https://supabase.com/dashboard/sign-up)
+We are using Supabase as our main storage - database - authentication provider for this project, so you firstly should [create an account](https://supabase.com/dashboard/sign-up).
 
 #### Project Creation
 
-As a first step we need to create an organization which will hold our project
+As the first step after creating account, we need to create an organization which will hold your project
 
 ![create_org](public/images/documentation/create_org.png)
 
@@ -97,7 +97,7 @@ You only need two environment variables to run the project correctly, your Supab
 
 ![environment_variables](public/images/documentation/env_variables.png)
 
-After getting these values, (assuming you already forked and cloned this project to your local machine, if not check out [run the project section](#run-the-project) create a `.env` file at the root of your project and populate it like the following:
+After getting these values, (assuming you already forked and cloned this project to your local machine, if not check out [run the project section](#run-the-project)) create a `.env` file at the root of your project and populate it like the following:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -216,7 +216,7 @@ git add filename.js
 
 ```sh
 git commit -m "Add: new login page"
-or
+# or
 git commit -m "Fix: navigation bar responsiveness"
 ```
 
