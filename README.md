@@ -11,7 +11,7 @@ Developer MultiGroup Çekiliş Arkadaşın is a web application for managing and
 1. Login / Register with Supabase Auth
 2. **Stage-1:** Choose the person which you will buy a present to using a giveaway spinner.
 3. **Stage-2:** Upload the present you have bought to the system when the stage unlocks.
-4. **Stage-3:** Play a game of **_Who Bought This Present_** as the last stage, don't forget to check your score from the scoreboard page for more surprises :)
+4. **Stage-3:** Play a game of **_Who Bought This Present ?_** as the last stage, don't forget to check your score from the scoreboard page for more surprises :)
 
 ## Technologies
 
