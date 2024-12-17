@@ -2,7 +2,16 @@
 
 # DMG Çekiliş Arkadaşın
 
-Developer MultiGroup Çekiliş Arkadaşın is a project developed to use in giveaways of any kind. Users log in and choose the person they are going to buy a present to using a giveaway spinner. After that users upload the presents they have bought and play a game of "Who bought this present?" as the last step.
+[![Made With Love](https://img.shields.io/badge/Made%20With-Love-orange.svg)](https://github.com/chetanraj/awesome-github-badges) [![License: GNU](https://img.shields.io/badge/License-GNU-orange.svg)](https://opensource.org/licenses/gpl-2-0) [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Developer-MultiGroup/cekilis-arkadasi.svg)](https://GitHub.com/Developer-MultiGroup/cekilis-arkadasi/pulls/) [![GitHub pull-requests](https://img.shields.io/github/issues/Developer-MultiGroup/cekilis-arkadasi.svg)](https://GitHub.com/Developer-MultiGroup/cekilis-arkadasi/issues/)
+
+Developer MultiGroup Çekiliş Arkadaşın is a web application for managing and organizing team giveaways, promoting engagement and fun within teams! There is a stage logic which is determined before the giveaway starts, so that every level unlocks in the specified time.
+
+## How to Play
+
+1. Login / Register with Supabase Auth
+2. **Stage-1:** Choose the person which you will buy a present to using a giveaway spinner.
+3. **Stage-2:** Upload the present you have bought to the system when the stage unlocks.
+4. **Stage-3:** Play a game of **_Who Bought This Present_** as the last stage, don't forget to check your score from the scoreboard page for more surprises :)
 
 ## Technologies
 
@@ -10,8 +19,6 @@ Developer MultiGroup Çekiliş Arkadaşın is a project developed to use in give
 - Vercel: For deployment of the project to the web.
 - Supabase: Preference of provider for user authentication and database management.
 - Tailwind CSS: Utility-first CSS framework for responsive and customizable UI.
-
-## Gallery
 
 ## Run Locally
 
@@ -100,12 +107,14 @@ NEXT_PUBLIC_SUPABASE_KEY=your_supabase_key
 ### Run the Project
 
 1. **Clone the Repository**: Clone the repository to your local machine.
+
    ```bash
    git clone https://github.com/your-username/repository-name.git
    cd repository-name
    ```
 
 2. **Install Dependencies**: Install the required dependencies.
+
    ```bash
    npm install
    ```
@@ -116,6 +125,51 @@ NEXT_PUBLIC_SUPABASE_KEY=your_supabase_key
    ```
 
 ## Customizing
+
+### Organization Identity
+
+You can change the background and logos both on the user form and loading screen easily, you only need to change the contents of the [following folder](https://github.com/Developer-MultiGroup/cekilis-arkadasi/tree/main/public/images/constants) while keeping the file names as they are.
+
+```sh
+📂 public /
+└── 📂 images/
+    └── 📂 constants/
+        ├── background.png
+        ├── loading_logo.png
+        └── logo.png
+```
+
+### Stages
+
+To change the look, title or time of a stage you can simply edit the [stages array](https://github.com/Developer-MultiGroup/cekilis-arkadasi/blob/main/src/data/stages.ts) in the following directory
+
+```sh
+📂 src /
+└── 📂 data/
+    └── stages.ts
+```
+
+Example Stage Object:
+
+```ts
+{
+    "index": 1, // Takes values 1, 2 and 3
+    "name": "Eşleşme", // name of the stage displayed on StageCard component
+    "start_date": "2024-12-15T22:30:00+03:00", // Determines when the stage unlocks, accepts any time-zone in this format
+    "image": "/images/stages/1.png" // Path to the stage image shown on StageCard component
+}
+```
+
+You don't need to edit the source URL for the stage image, rather you can just upload a new image with the same name to the [following directory](https://github.com/Developer-MultiGroup/cekilis-arkadasi/tree/main/public/images/stages), as in the [organization identity](#organization-identity) section above.
+
+```sh
+📂 public /
+└── 📂 images/
+    └── 📂 stages/
+        ├── 1.png
+        ├── 2.png
+        └── 3.png
+```
 
 ## Contributing
 
@@ -131,6 +185,7 @@ cd project-name
 ```
 
 ### 2. Create Branch
+
 ```bash
 git checkout -b feature/your-feature
 # or
@@ -138,23 +193,27 @@ git checkout -b fix/bug-name
 ```
 
 ### 3. Make Changes
+
 Code your features/fixes and have fun :)
 
 ### 4. Check Status
+
 ```sh
 git status
 This shows your changed files
 ```
 
 ### 5. Stage Changes
+
 ```sh
 # Stage all changes
-git add . 
+git add .
 # or stage for specific files
 git add filename.js
 ```
 
 ### 6. Commit
+
 ```sh
 git commit -m "Add: new login page"
 or
@@ -162,11 +221,13 @@ git commit -m "Fix: navigation bar responsiveness"
 ```
 
 ### 7. Push
+
 ```sh
 git push origin feature/your-feature
 ```
 
 ### 8. Create PR
+
 Go to GitHub and create a Pull Request to this repository
 
 ## Contributors

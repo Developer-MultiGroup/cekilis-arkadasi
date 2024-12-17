@@ -61,7 +61,7 @@ export default function Welcome() {
             <div className="flex space-x-4">
               <Button
                 onClick={signOut}
-                className="p-2 text-white rounded bg-red-600"
+                className="p-2 text-white rounded bg-red-600 hover:bg-red-700"
               >
                 Çıkış Yap
               </Button>

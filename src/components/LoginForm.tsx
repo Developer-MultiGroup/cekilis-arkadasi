@@ -58,7 +58,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
       className="w-full max-w-sm space-y-4 p-4 bg-white shadow rounded"
     >
       <Image
-        src="/images/dmg-santa-hat.png"
+        src="/images/constants/logo.png"
         alt="DMG logo with santa hat"
         className="mx-auto"
         width={125}
