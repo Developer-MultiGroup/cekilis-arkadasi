@@ -26,7 +26,7 @@ export default function Stage1() {
       <BackHome />
 
       <UserCarousel />
-      <div className="w-5/6 md:w-1/4 mx-auto text-center">
+      <div className="w-5/6 md:w-1/4 mx-auto text-center mb-8">
         <NextStage stage={2} mode="card" />
       </div>
     </div>

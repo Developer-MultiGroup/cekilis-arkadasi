@@ -100,7 +100,7 @@ export default function Stage3() {
       <BackHome />
 
       {!hasPlayed && (
-        <p className="text-center font-semibold text-2xl my-6 bg-white bg-opacity-40 text-gray-800 border-2 border-gray-300 shadow-sm p-4 rounded-lg max-w-2xl mx-auto">
+        <p className="text-center font-semibold text-2xl my-6 bg-white bg-opacity-40 text-gray-800 border-2 border-gray-300 shadow-sm p-4 rounded-lg max-w-2xl w-4/5 mx-auto">
           Hediyeyi satın alanı tahmin et ve gönder gelsin!
         </p>
       )}
