@@ -10,6 +10,7 @@ interface LoginFormProps {
     password: string,
     name?: string,
     surname?: string,
+    address?: string,
     photoFile?: File
   ) => void;
   error: string;
@@ -27,6 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string>("");
 
@@ -46,7 +48,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isRegister) {
-      onSubmit(email, password, name, surname, photoFile || undefined);
+      onSubmit(email, password, name, surname, address, photoFile || undefined);
     } else {
       onSubmit(email, password);
     }
@@ -88,6 +90,17 @@ const LoginForm: React.FC<LoginFormProps> = ({
               placeholder="Soyisminizi girin"
               value={surname}
               onChange={(e) => setSurname(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor="surname">Adres</Label>
+            <Input
+              id="address"
+              type="text"
+              placeholder="Adresinizi girin"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               required
             />
           </div>

@@ -9,12 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import CustomHeader from "@/components/CustomHeader";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 
 export default function Welcome() {
   const { user, signOut } = useAuth();
@@ -23,6 +18,7 @@ export default function Welcome() {
     surname: string;
     email: string;
     photo_url: string;
+    address: string;
   } | null>(null);
   const router = useRouter();
 
@@ -56,8 +52,9 @@ export default function Welcome() {
               Selam, {userData.name} {userData.surname}!
             </CardTitle>
             <CardContent>{userData.email}</CardContent>
+            <CardContent className="max-w-xs">{userData.address}</CardContent>
           </CardContent>
-          <CardFooter className="flex justify-center items-center mt-6">
+          <CardFooter className="flex justify-center items-center">
             <div className="flex space-x-4">
               <Button
                 onClick={signOut}

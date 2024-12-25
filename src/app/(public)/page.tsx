@@ -47,6 +47,7 @@ const Home: React.FC = () => {
     password: string,
     name?: string,
     surname?: string,
+    address?: string,
     profilePicture?: File
   ) => {
     try {
@@ -108,6 +109,7 @@ const Home: React.FC = () => {
               name,
               surname,
               username,
+              address,
               photo_url: photoUrl, // Save the public URL
               has_match: false,
               game_played: false,
@@ -140,7 +142,7 @@ const Home: React.FC = () => {
             return;
           }
 
-          router.push("/welcome"); // Navigate to the welcome page after successful registration
+          router.refresh();
         }
       } else {
         // Login Flow

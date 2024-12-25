@@ -10,11 +10,24 @@ interface StageCardProps {
   image: string;
 }
 
-export default function StageCard({ index, name, date, image }: StageCardProps) {
+export default function StageCard({
+  index,
+  name,
+  date,
+  image,
+}: StageCardProps) {
   const router = useRouter();
   const currentDate = new Date();
   const unlockDate = new Date(date);
+
   const isLocked = unlockDate > currentDate;
+  
+  const day = String(unlockDate.getDate()).padStart(2, "0");
+  const month = String(unlockDate.getMonth() + 1).padStart(2, "0");
+  const year = unlockDate.getFullYear();
+  const hours = String(unlockDate.getHours()).padStart(2, "0");
+  const minutes = String(unlockDate.getMinutes()).padStart(2, "0");
+  const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
 
   const handleClick = () => {
     if (!isLocked) {
@@ -43,7 +56,7 @@ export default function StageCard({ index, name, date, image }: StageCardProps) 
         <p className={`font-bold ${isLocked ? "text-gray-400" : ""}`}>{name}</p>
         <CountdownTimer targetDate={date} />
         {isLocked && (
-          <p className="text-sm mt-2">Kilit Açılma Tarihi {unlockDate.toLocaleDateString()}</p>
+          <p className="text-sm mt-2">Kilit Açılma Tarihi {formattedDate}</p>
         )}
       </div>
       <Button
