@@ -1,186 +1,111 @@
 "use client";
+
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import CustomHeader from "@/components/CustomHeader";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import LoginForm from "@/components/LoginForm";
-import slugify from "@/lib/slugify";
-import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/context/AuthContext";
 
-const Home: React.FC = () => {
+const Home = () => {
   const router = useRouter();
-  const [error, setError] = useState<string>("");
-  const [isRegister, setIsRegister] = useState<boolean>(false);
-  const {user} = useAuth()
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const uploadPhoto = async (file: File, userId: string) => {
-    try {
-      // Create a unique file name
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${userId}-${Date.now()}.${fileExt}`;
-      const filePath = `users/${fileName}`;
-
-      // Upload the file to Supabase storage
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { error: uploadError, data } = await supabase.storage
-        .from("images")
-        .upload(filePath, file);
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      // Get the public URL for the uploaded file
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("images").getPublicUrl(filePath);
-
-      return publicUrl;
-    } catch (error) {
-      console.error("Error uploading photo:", error);
-      throw error;
-    }
-  };
-
-  const handleAuth = async (
-    email: string,
-    password: string,
-    name?: string,
-    surname?: string,
-    address?: string,
-    profilePicture?: File
-  ) => {
-    try {
-      if (isRegister) {
-        // Registration Flow
-        const { data: authData, error: signUpError } =
-          await supabase.auth.signUp({
-            email,
-            password,
-          });
-
-        if (signUpError) {
-          setError(signUpError.message);
-          return;
-        }
-
-        if (authData.user) {
-          let photoUrl = ""; // Default empty photo URL
-
-          // Handle profile picture upload
-          if (profilePicture) {
-            const filePath = `users/${authData.user.id}/${profilePicture.name}`;
-
-            const { error: uploadError } = await supabase.storage
-              .from("images")
-              .upload(filePath, profilePicture);
-
-            if (uploadError) {
-              console.error(
-                "Error uploading profile picture:",
-                uploadError.message
-              );
-              setError("Error uploading profile picture.");
-              return;
-            }
-
-            // Get public URL for the uploaded image
-            const { data: urlData } = supabase.storage
-              .from("images")
-              .getPublicUrl(filePath);
-
-            if (urlData?.publicUrl) {
-              photoUrl = urlData.publicUrl;
-            } else {
-              console.error("Error generating public URL for profile picture.");
-              setError("Error generating public URL for profile picture.");
-              return;
-            }
-          }
-
-          // Create a slugified username
-          const username = name && surname ? slugify(`${name} ${surname}`) : "";
-
-          // Save user data to the database
-          const { error: dbError } = await supabase.from("users").upsert([
-            {
-              id: authData.user.id,
-              email,
-              name,
-              surname,
-              username,
-              address,
-              photo_url: photoUrl, // Save the public URL
-              has_match: false,
-              game_played: false,
-              points: 0,
-            },
-          ]);
-
-          const { error: matchError } = await supabase.from("matches").upsert([
-            {
-              id: authData.user.id,
-              matched_to: "",
-            },
-          ]);
-
-          if (dbError) {
-            console.error(
-              "Error saving user data to the database:",
-              dbError.message
-            );
-            setError("Error saving user data to the database.");
-            return;
-          }
-
-          if (matchError) {
-            console.error(
-              "Error creating row in matches table:",
-              matchError.message
-            );
-            setError("Error saving user data to the database.");
-            return;
-          }
-
-          router.refresh();
-        }
-      } else {
-        // Login Flow
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { data: authData, error: signInError } =
-          await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
-
-        if (signInError) {
-          console.error("Error during login:", signInError.message);
-          setError("Invalid email or password.");
-          return;
-        }
-
-        router.push("/welcome"); // Navigate to the welcome page after successful login
-      }
-    } catch (err) {
-      console.error("Unexpected error:", err);
-      setError("Something went wrong. Please try again.");
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      router.replace("/welcome");
-    }
-  }, [user, router]);
-
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen">
-      <LoginForm
-        onSubmit={handleAuth}
-        error={error}
-        isRegister={isRegister}
-        toggleMode={() => setIsRegister(!isRegister)}
-      />
+    <div className="min-h-screen py-8 px-4">
+      <div className="max-w-4xl mx-auto space-y-8">
+        <CustomHeader>DMG ÇEKİLİŞ ARKADAŞIN</CustomHeader>
+
+        <div className="flex justify-center mb-8">
+          <Button
+            onClick={() => router.push("/login")}
+            className="text-white px-8 py-2 rounded-lg"
+          >
+            Giriş Yap
+          </Button>
+        </div>
+
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-2xl">Nasıl Çalışır?</CardTitle>
+          </CardHeader>
+          <CardContent className="prose">
+            <p>
+              Oluşturduğumuz sistem yılbaşı çekilişine kendi bakış açımızı
+              getirmek amacıyla kuruldu. Yeni bir yıla girerken ekip
+              üyelerimizin eşleştirilmesi ve birbirlerine alacakları sürpriz
+              hediyelerle tanışmasına dayanıyor.
+            </p>
+
+            <p className="pt-4">
+              İlk olarak yapmanız gereken ilk şey üyelik oluşturmanız ve de
+              adres bilgileriniz ile bu adımı sağlarken eğlenceli olduğunu
+              düşündüğünüz fotoğrafınızı yüklemeyi unutmayın . Eğer çok ciddi
+              bir fotoğraf koyarsanız adminlerimiz fotoğrafı değiştirme hakkına
+              sahiptir.
+            </p>
+
+            <h3 className="font-semibold mt-6 mb-4">Adımlar:</h3>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-100 rounded-lg">
+                <h4 className="font-medium text-orange-600">
+                  1. Adım - 26 Aralık, 21:00
+                </h4>
+                <p>Çark sistemi ile hediye alınacak kişinin belirlenmesi</p>
+              </div>
+              <div className="p-4 bg-gray-100 rounded-lg">
+                <h4 className="font-medium text-orange-600">
+                  2. Adım - 27 Aralık, 21:00
+                </h4>
+                <p>Hediyelerin sisteme yüklenmesi</p>
+              </div>
+              <div className="p-4 bg-gray-100 rounded-lg">
+                <h4 className="font-medium text-orange-600">
+                  3. Adım - 1 Ocak, 00:00
+                </h4>
+                <p>Hediye tahmin oyunu ve puan tablosu</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl">Kurallar</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc space-y-3">
+              <li>
+                Çekilişe sadece bir kez ve belirtilen tarihlerde
+                katılabilirsiniz.
+              </li>
+              <li>
+                Fotoğraf değişimleri ve de katılımcıların eşleşmeler hakkındaki
+                itirazları dikkate alınmayacaktır.Kime hediye aldığınız sizler
+                ile birlikte{" "}
+                <b className="text-orange-600">kesinlikle saklanmalıdır</b>.
+              </li>
+              <li>
+                Her bir adım tamamlandığında sizlere gerekli bilgilendirme
+                sağlanacaktır. Sizlerden ricamız{" "}
+                <b className="text-orange-600">iletilen sürelerde</b> gerekli
+                adımları tamamlamanızdır.
+              </li>
+              <li>
+                Yaratıcılığını konuşturmanız ve kendinizi en iyi şekilde ifade
+                etmeniz için hediye alımında üst sınırını{" "}
+                <b className="text-orange-600">300 ₺</b> olarak belirledik.
+                Hediye seçiminde buna özen göstermenizi ,kendi hayal gücünüzü
+                konuşturarak hediye aldığınız kişide ve diğer ekip üyelerinde
+                bir tutam gülümseme yaratmaya çalışmanızı rica ediyoruz.
+              </li>
+              <li>
+                Hediyelerin gönderiminin{" "}
+                <b className="text-orange-600">1 Ocak'tan</b> sonra yapılacağını
+                lütfen unutmamanızı ve de eğlencenin tadını çıkarmanızı isteriz.
+                DMG olarak bu yıl çok daha güzel geçecek
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
