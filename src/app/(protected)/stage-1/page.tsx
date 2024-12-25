@@ -21,7 +21,7 @@ export default function Stage1() {
 
   return (
     <div className="min-h-screen px-4">
-      <CustomHeader>ÇEKİLİŞE KATILANLAR</CustomHeader>
+      <CustomHeader>ARKADAŞINI BELİRLE</CustomHeader>
 
       <BackHome />
 

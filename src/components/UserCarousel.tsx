@@ -18,6 +18,7 @@ interface User {
   name: string;
   surname: string;
   photo: string;
+  address: string;
 }
 
 const UserSpinner: React.FC = () => {
@@ -50,6 +51,7 @@ const UserSpinner: React.FC = () => {
               id: matchedUserDetails.id,
               name: matchedUserDetails.name,
               surname: matchedUserDetails.surname,
+              address: matchedUserDetails.address,
               photo: matchedUserDetails.photo_url,
             });
             setIsMatched(true);
@@ -74,6 +76,7 @@ const UserSpinner: React.FC = () => {
             id: userData.id,
             name: userData.name,
             surname: userData.surname,
+            address: userData.address,
             photo: userData.photo_url,
           }));
 
@@ -156,11 +159,17 @@ const UserSpinner: React.FC = () => {
               <img
                 src={matchedUser.photo}
                 alt={matchedUser.name}
-                className="w-48 h-48 rounded-full mx-auto mt-2 transform transition-all duration-500 ease-in-out"
+                className="w-48 h-48 object-cover rounded-full mx-auto mt-2 transform transition-all duration-500 ease-in-out"
               />
               <h3 className="text-2xl font-bold my-4">
                 🎉 {matchedUser.name} {matchedUser.surname} 🎉
               </h3>
+              <p className="text-lx font-bold">
+                Hediyeni bu adrese gönderebilirsin:                 
+              </p>
+              <p className="pt-4">
+              {matchedUser.address}
+              </p>
             </div>
           </CardContent>
           <CardFooter>
