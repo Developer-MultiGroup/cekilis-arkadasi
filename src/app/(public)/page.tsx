@@ -98,7 +98,7 @@ const Home = () => {
               </li>
               <li>
                 Hediyelerin gönderiminin{" "}
-                <b className="text-orange-600">1 Ocak'tan</b> sonra yapılacağını
+                <b className="text-orange-600">1 Ocak</b> tarihinden sonra yapılacağını
                 lütfen unutmamanızı ve de eğlencenin tadını çıkarmanızı isteriz.
                 DMG olarak bu yıl çok daha güzel geçecek
               </li>

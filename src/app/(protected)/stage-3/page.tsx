@@ -16,7 +16,9 @@ import { checkLocked } from "@/lib/check-locked";
 
 export default function Stage3() {
   const { user } = useAuth();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [users, setUsers] = useState<any[]>([]);
   const [guesses, setGuesses] = useState<{ [key: string]: string }>({});
   const [hasPlayed, setHasPlayed] = useState<boolean>(false);
