@@ -56,6 +56,13 @@ export default function Welcome() {
           </CardContent>
           <CardFooter className="flex justify-center items-center">
             <div className="flex space-x-4">
+
+            <Button
+                onClick={() => router.push("/")}
+                className="p-2 text-white rounded bg-green-600 hover:bg-green-700"
+              >
+                Anasayfa
+              </Button>
               <Button
                 onClick={signOut}
                 className="p-2 text-white rounded bg-red-600 hover:bg-red-700"
