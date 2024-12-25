@@ -57,7 +57,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-sm space-y-4 p-4 bg-white shadow rounded"
+      className="w-full max-w-xs md:max-w-sm space-y-4 p-4 bg-white shadow rounded my-12"
     >
       <Image
         src="/images/constants/logo.png"
