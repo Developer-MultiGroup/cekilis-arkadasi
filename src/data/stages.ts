@@ -2,7 +2,7 @@ const stages = [
     {
         "index": 1,
         "name": "Eşleşme",
-        "start_date": "2024-12-26T21:00:00+03:00",
+        "start_date": "2024-12-26T21:40:00+03:00",
         "image": "/images/stages/1.png" 
     },
     {
