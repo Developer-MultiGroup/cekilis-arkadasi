@@ -14,7 +14,7 @@ const stages = [
     {
         "index": 3,
         "name": "Oyun",
-        "start_date": "2024-12-31T23:59:00+03:00",
+        "start_date": "2025-01-03T21:00:00+03:00",
         "image": "/images/stages/3.png"
     }
 ]
